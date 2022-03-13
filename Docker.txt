@@ -1,0 +1,166 @@
+What is Docker?
+it is one implementation of container based
+virtualization technologies.
+
+Docker Client-Server Architecture 
+
+Important Docker Concepts-->
+1)Images-->
+• Images are read only templates used to create containers.
+• Images are created with the docker build command, either	
+by us or by other docker users.
+• Images are composed of layers of other images.
+• Images are stored in a Docker registry.
+
+2)Containers-->
+• If an	image is a class, then	a container is an instance of a class- a runtime object.
+• Containers are lightweight and portable encapsulations of	
+an environment	in which to run	applications.
+• Containers are created from images.Inside a container, it has	all the	binaries and dependencies needed to run	the	
+application.
+
+3)Registries and Repositories-->
+• A registry is	where we store our images.
+• You can host your own	registry, or you can use Docker’s
+public	registry which	is called DockerHub.
+• Inside a registry, images are stored	in repositories.
+• Docker repository is	a collection of	different docker images with the same name, that have different tags, each tag usually represents a different version of the image.
+
+Ways to	Build a	Docker Image-->
+• Commit changes made in a Docker container.
+• Write	a Dockerfile.
+
+Steps
+1. Spin	up a container	from a base image.
+2. Install Git package	in the container.
+3. Commit changes made	in the container
+
+Docker commit
+• Docker commit	command	would	save	the	
+changes	we made	to the Docker container’s	
+file system to a new image.
+docker commit container_ID repository_name:tag
+
+
+Dockerfile and	Instructions
+• A Dockerfile is a text document that contains	all the	
+instructions	users	provide	to assemble an image.
+• Each	instruction will create	a new image layer to the	image.
+• Instructions specify what to	do when	building the image.
+
+
+Docker Build	Context
+• Docker build	command	takes the path to the	
+build context as an argument.
+• When build starts, docker client would pack	all	
+the files in the build	context	into a tarball then	
+transfer the tarball file to the daemon.
+• By default,docker would search for the	
+Dockerfile in the build	context	path.
+
+CMD Instructions-->
+• CMD instruction specifies what command you want to run	when the container starts up.	
+• If we	don't specify CMD instruction in the Dockerfile,	Docker will use	the default command defined in the base	image.	
+• The CMD instruction doesn’t run when	building the image,	it only	runs when the container	starts	up.	
+• You can specify the command in either	exec form which	is	preferred or in	shell form.
+
+Cache Busting->
+RUN apt-get update && apt-get	install	-y \
+git \
+cur
+
+You can	also achieve cache-busting by specifying a	package	version.This is	known as version pinning.
+RUN apt-get update && apt-get install -y\
+package-bar\
+package-baz\
+package-foo=1.3.
+
+
+Benefits of Docker Container Links-->
+• The main use for docker container links is when we build an
+application with a microservice architecture, we are able to
+run many independent components in different containers.
+• Docker creates a secure tunnel between the containers that
+doesn’t need to expose any ports externally on the container.
+
+Docker Compose-->
+•Docker compose is a very handy tool to quickly get docker
+environment up and running.
+• Docker compose uses yaml files to store the configuration
+of all the containers, which removes the burden to maintain
+our scripts for docker orchestration.
+
+
+Docker Compose Commands->
+docker compose up starts up all	the containers.	
+• docker compose ps checks the status of the containers	managed	by docker compose.	
+• docker compose logs outputs colored and aggregated logs for the compose-managed	
+containers.	
+• docker compose logs with dash	f option outputs appended log when the log grows.	
+• docker compose logs with the container name in the end outputs the logs of a specific container.	
+• docker compose stop stops all	the running containers without removing them.	
+• docker compose rm removes all	the containers.	
+• docker compose build rebuilds	all the	images.
+
+Docker Networking-->
+Docker Network Types->
+1)Closed Network/None Network
+2)Bridge Network
+3)Host Network
+4)Overlay Network
+
+
+1)None Network->
+•Provides the maximum level of network protection.
+• Not a	good choice if network	or Internet connection	is	required.
+• Suites well where the	container require the maximum level	of network security and	network	access	is not necessary
+
+3)Host Network->
+•The least protected network model, it adds a container	on	the host's network stack.
+• Containers deployed on the host stack	have full access	to the host's interface.
+• This kind of containers are usually called open	containers.
+
+
+Unit Tests in Container-->
+• Unit tests should test some basic functionality of our docker app code,with no reliance on external services.
+• Unit tests should run as quickly as possible so that developers can iteratemuch faster without being blocked by waiting for the tests results.
+• Docker containers can spin up in seconds and can create a clean and isolated environment which is great tool to run unit tests with.
+
+
+What is Continuous Integration-->
+Continuous integration is a software engineering practice in which isolated changes are immediately tested and reported when they are added to a larger code base.
+• The goal of Continuous integration is to provide rapid feedback so that if a defect is introduced into the code base,it can be identified and corrected as soon as possible.
+
+
+Set up SSH keys for Github Account-->
+•SSH keys are a way to identify trusted computers without involving password.
+• Generate a SSH key pair and save the private SSH key in your local box and add the public key to your GitHub account.
+• Then you can directly push your changes to github repository without typing password.
+
+How to check if SSH public key files are available on your local box?-->
+The SSH public key file usually sits under ~/.ssh/ directory and ends with .pub extension.
+
+Opinions about Running	Docker in Production-->
+• One one hand, many docker pioneers are confident that a
+distributed web app can be deployed at scale using Docker and
+have incorporated Docker into their production environment.
+• On the other hand, there are still some people who are
+reluctant to use Docker in production as they think docker
+workflow is too complex or unstable for real life use cases.
+
+
+Why Running Docker Containers inside VMs?
+• To address security concerns.
+• Hardware level isolation.
+
+Docker Machine	Create	command	-->
+docker-machine	create	--driver digitalocean --digitalocean-access-token <xxxxx> docker-app-machine.
+
+Docker	Swarm	commands
+• docker swarm	init
+– Initialize a swarm. The docker engine	targeted by this	command.
+becomes	a manager in the newly created single-node swarm.
+• docker swarm	join
+– Join	a swarm	as a Swarm node.
+• docker swarm	leave
+- Leave the swarm.
